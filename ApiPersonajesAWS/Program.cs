@@ -23,6 +23,11 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddCors(p => p.AddPolicy("corsenabled", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
@@ -38,7 +43,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("corsenabled");
 app.UseAuthorization();
 
 app.MapControllers();
